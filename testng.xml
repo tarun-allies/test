@@ -1,0 +1,10 @@
+<suite name= "My first Suite">
+<test name= "AutomationFramework">
+<classes>
+<class name= "AutomationFramework.TestStagingModules">
+</class>
+<class name= "AutomationFramework.TestProductionModules">
+</class>
+</classes>
+</test>
+</suite>

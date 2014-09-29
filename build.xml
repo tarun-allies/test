@@ -1,0 +1,62 @@
+<project name="projectname" basedir="." default="runTest"> 
+
+<property name="src.dir" location="${basedir}/src" /> 
+<property name="lib.dir" location="${basedir}/lib" /> 
+<property name="exec.dir" location="${basedir}/exec" /> 
+<property name="exec.bin.dir" location="${exec.dir}/bin" /> 
+<property name="functional.base.dir" location="${basedir}/../../" /> 
+<property name="reports.dir" location="${exec.dir}/reports" /> 
+<property name="failure.dir" location="${exec.dir}/reports/xml" /> 
+
+<path id="ft.classpath"> 
+<fileset dir="${lib.dir}"> 
+<include name="*.jar" /> 
+</fileset> 
+<pathelement location="${exec.dir}" /> 
+</path> 
+
+<taskdef resource="testngtasks" classpath="${lib.dir}/testng-6.8.7.jar" /> 
+
+<target name="clean"> 
+<delete dir="${exec.dir}" /> 
+</target> 
+
+<target name="prepare"> 
+<mkdir dir="${exec.dir}" /> 
+<mkdir dir="${reports.dir}/output" /> 
+
+<copy todir="${exec.bin.dir}"> 
+<fileset dir="${src.dir}" /> 
+</copy> 
+</target> 
+
+<target name="compile" depends="clean, prepare"> 
+<javac classpathref="ft.classpath" srcdir="${src.dir}" destdir="${exec.dir}" /> 
+</target> 
+
+<target name="runTest" depends="compile"> 
+<testng classpathref="ft.classpath" outputdir="${reports.dir}/Test 1" suitename="suite1"> 
+<xmlfileset dir="${basedir}" includes="testng.xml"/> 
+</testng> 
+</target> 
+	
+	   <target name="testng-xslt-report">
+	                <delete dir="${basedir}/testng-xslt">
+	                </delete>
+	                <mkdir dir="${basedir}/testng-xslt">
+	                </mkdir>
+	                <xslt in="${basedir}/reports/TestNG/testng-results.xml" style="${basedir}/testng-results.xsl" out="${basedir}/testng-xslt/index.html">
+	                    <param expression="${basedir}/testng-xslt/" name="testNgXslt.outputDir" />
+	        
+	                    <param expression="true" name="testNgXslt.sortTestCaseLinks" />
+	        
+	                    <param expression="FAIL,SKIP,PASS,CONF,BY_CLASS" name="testNgXslt.testDetailsFilter" />
+	        
+	                    <param expression="true" name="testNgXslt.showRuntimeTotals" />
+	        
+	                    <classpath refid="classpath">
+	                    </classpath>
+	                </xslt>
+	   </target>
+	
+ </project>
